@@ -7,8 +7,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const reportRoutes = require('./routes/reportRoutes');
+
 app.get('/', (req, res) => {
   res.json({ message: 'API peduli-kampus berjalan' });
 });
+
+app.use('/api/reports', reportRoutes);
 
 module.exports = app;
