@@ -1,13 +1,19 @@
 const express = require('express');
+const {
+  getReportUpdates,
+  createReportUpdate,
+} = require('../controllers/reportUpdateController');
+const authMiddleware = require('../middlewares/authMiddleware');
+const roleMiddleware = require('../middlewares/roleMiddleware');
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
-/**
- * File ini dikerjakan oleh Anggota 4 untuk riwayat update laporan
- * dan update status laporan.
- * Rencana endpoint:
- * GET /api/reports/:id/updates
- * POST /api/reports/:id/updates
- */
+router.get('/', authMiddleware, getReportUpdates);
+router.post(
+  '/',
+  authMiddleware,
+  roleMiddleware(['teknisi_admin']),
+  createReportUpdate
+);
 
 module.exports = router;
