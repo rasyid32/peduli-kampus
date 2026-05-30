@@ -1,21 +1,15 @@
-/**
- * File ini dikerjakan oleh Anggota 2 untuk validasi JWT authentication.
- */
-
 const jwt = require('jsonwebtoken');
 
 /**
- * Middleware untuk memverifikasi token JWT.
- * Menyimpan data user yang ter-decode ke req.user.
+ * Middleware untuk memverifikasi JWT token.
+ * Token diambil dari header Authorization: Bearer <token>.
+ * Jika valid, data user disimpan ke req.user.
  */
 const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({
-      success: false,
-      message: 'Akses ditolak. Token tidak ditemukan.',
-    });
+    return res.status(401).json({ message: 'Akses ditolak. Token tidak ditemukan.' });
   }
 
   const token = authHeader.split(' ')[1];
@@ -25,10 +19,7 @@ const authenticate = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({
-      success: false,
-      message: 'Token tidak valid atau sudah kadaluarsa.',
-    });
+    return res.status(401).json({ message: 'Token tidak valid atau sudah kadaluarsa.' });
   }
 };
 

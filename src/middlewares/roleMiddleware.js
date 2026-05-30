@@ -1,6 +1,13 @@
 /**
- * File ini dikerjakan oleh Anggota 2 untuk validasi akses berdasarkan role user.
+ * Middleware untuk membatasi akses berdasarkan role user.
+ * Menerima daftar role yang diizinkan sebagai parameter.
+ * Harus digunakan setelah authMiddleware (req.user sudah tersedia).
  */
+const authorize = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Akses ditolak. User belum terautentikasi.' });
+    }
 
 /**
  * Middleware factory untuk membatasi akses berdasarkan role.
